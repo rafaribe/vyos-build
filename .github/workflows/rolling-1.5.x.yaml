@@ -73,7 +73,10 @@ jobs:
               --custom-package "jo" \
               --custom-package "moreutils" \
               --custom-package "tree" \
-              --custom-package "vim"
+              --custom-package "vim" \
+              --custom-apt-key ../tailscale.gpg \
+              --custom-apt-entry "deb https://pkgs.tailscale.com/stable/debian bullseye main" \
+              --custom-package "tailscale" 
 
       - name: Create release with artifact
         uses: ncipollo/release-action@v1
