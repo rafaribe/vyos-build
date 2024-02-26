@@ -43,9 +43,9 @@ jobs:
         shell: bash
         run: git clone -b ${{ env.VYOS_BRANCH }} --single-branch ${{ env.VYOS_URL }}
 
-      - name: Copy Tailscale GPG key
+      - name: Download Tailscale GPG key
         shell: bash
-        run: cp ../../tailscale.gpg vyos-build/tailscale.gpg
+        run: curl https://raw.githubusercontent.com/rafaribe/vyos-build/cce7837c180af03418cdcf211f34e6b905122f49/tailscale.gpg -o vyos-build/tailscale.gpg
 
       - name: Download sops deb
         uses: robinraju/release-downloader@v1.9
