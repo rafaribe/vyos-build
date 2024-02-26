@@ -45,7 +45,7 @@ jobs:
 
       - name: Copy Tailscale GPG key
         shell: bash
-        run: cp tailscale.gpg vyos-build/tailscale.gpg
+        run: cp ../../tailscale.gpg vyos-build/tailscale.gpg
 
       - name: Download sops deb
         uses: robinraju/release-downloader@v1.9
