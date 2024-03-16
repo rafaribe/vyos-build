@@ -22,6 +22,8 @@ env:
   SOPS_VERSION: v3.8.1
   # renovate: datasource=github-releases depName=p3lim/vyaml
   VYAML_VERSION: 0.2.6
+  
+  TAILSCALE_GPG_KEY: https://raw.githubusercontent.com/rafaribe/vyos-build/cce7837c180af03418cdcf211f34e6b905122f49/tailscale.gpg
 
 jobs:
   release:
@@ -39,10 +41,6 @@ jobs:
         with:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
-
-      - name: Download Tailscale GPG key
-        shell: bash
-        run: curl https://raw.githubusercontent.com/rafaribe/vyos-build/cce7837c180af03418cdcf211f34e6b905122f49/tailscale.gpg -o vyos-build/tailscale.gpg
 
       - name: Format version
         id: version
@@ -70,6 +68,10 @@ jobs:
       - name: Clone vyos-build branch
         shell: bash
         run: git clone -b ${{ env.VYOS_VERSION }} --depth 1 https://github.com/vyos/vyos-build
+
+      - name: Download Tailscale GPG key
+        shell: bash
+        run: curl ${{ env.TAILSCALE_GPG_KEY }} -o vyos-build/tailscale.gpg
 
       - name: Switch to vyos-build version tag
         shell: bash

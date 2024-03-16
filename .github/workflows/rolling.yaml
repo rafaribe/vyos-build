@@ -11,6 +11,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  TAILSCALE_GPG_KEY: https://raw.githubusercontent.com/rafaribe/vyos-build/cce7837c180af03418cdcf211f34e6b905122f49/tailscale.gpg
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -46,6 +49,10 @@ jobs:
       - name: Clone vyos-build
         shell: bash
         run: git clone -b ${{ matrix.branch }} --single-branch https://github.com/vyos/vyos-build
+        
+      - name: Download Tailscale GPG key
+        shell: bash
+        run: curl ${{ env.TAILSCALE_GPG_KEY }} -o vyos-build/tailscale.gpg
 
       - name: Download sops deb
         uses: robinraju/release-downloader@v1.9
