@@ -29,6 +29,9 @@ jobs:
         with:
           app-id: "${{ secrets.BOT_APP_ID }}"
           private-key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+      - name: Download Tailscale GPG key
+        shell: bash
+        run: curl https://raw.githubusercontent.com/rafaribe/vyos-build/cce7837c180af03418cdcf211f34e6b905122f49/tailscale.gpg -o vyos-build/tailscale.gpg
 
       - name: Setup variables
         id: vars
@@ -75,7 +78,10 @@ jobs:
               --custom-package "jo" \
               --custom-package "moreutils" \
               --custom-package "tree" \
-              --custom-package "vim"
+              --custom-package "vim" \
+              --custom-apt-key ../tailscale.gpg \
+              --custom-apt-entry "deb https://pkgs.tailscale.com/stable/debian bullseye main" \
+              --custom-package "tailscale" 
 
       - name: Create release with artifact
         uses: ncipollo/release-action@v1
